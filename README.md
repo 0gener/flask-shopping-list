@@ -67,6 +67,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Authors
 
 * **Ivan Sousa** - [0gener](https://github.com/0gener)
+* **Gonçalo Sousa** - [Gonsalo](https://github.com/Gonsalo)
 
 See also the list of [contributors](https://github.com/0gener/flask-shopping-list/contributors) who participated in this project.
 
