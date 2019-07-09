@@ -1,21 +1,14 @@
-from os import environ
-
 class Config:
-    """Set Flask configuration vars from .env file."""
-
-    # General
     TESTING = False
     DEBUG = False
-    SECRET_KEY = environ.get('SECRET_KEY')
-    PROPAGATE_EXCEPTIONS = environ.get('PROPAGATE_EXCEPTIONS')
+    PROPAGATE_EXCEPTIONS = False
 
-    # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
-    SQLALCHEMY_TRACK_MODIFICATIONS = environ.get("SQLALCHEMY_TRACK_MODIFICATIONS")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
+
     SQLALCHEMY_DATABASE_URI = 'sqlite:///data.db'
 
 class DevelopmentConfig(Config):
@@ -35,4 +28,5 @@ app_config = {
     'testing': TestingConfig,
     'staging': StagingConfig,
     'production': ProductionConfig,
+    'default': DevelopmentConfig
 }
