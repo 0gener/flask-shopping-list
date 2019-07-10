@@ -1,3 +1,4 @@
+from flask import current_app
 from flask_restful import Resource, reqparse
 from werkzeug.security import safe_str_cmp
 from application.models.user import UserModel
@@ -69,9 +70,14 @@ class UserLogin(Resource):
             access_token = create_access_token(identity=user.id, fresh=True)
             refresh_token = create_refresh_token(user.id)
 
+            access_token_expiration = current_app.config['JWT_ACCESS_TOKEN_EXPIRES'].total_seconds()
+            refresh_token_expiration = current_app.config['JWT_REFRESH_TOKEN_EXPIRES'].total_seconds()
+
             return {
-                       "access_token": access_token,
-                       "refresh_token": refresh_token
-                   }, 200
+                "access_token": access_token,
+                "expires_in": access_token_expiration,
+                "refresh_token": refresh_token,
+                "refresh_expires_in": refresh_token_expiration
+            }, 200
 
         return {"message": "Invalid credentials"}, 401
