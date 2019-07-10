@@ -1,10 +1,10 @@
 from flask import Flask
-from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
 from config import app_config
 
-api = Api()
 db = SQLAlchemy()
+jwt = JWTManager()
 
 def create_app(config):
     app = Flask(__name__, instance_relative_config=True)
@@ -12,9 +12,10 @@ def create_app(config):
     app.config.from_pyfile('config.py')
     app.config.from_object(app_config[config])
 
-    print(app.config)
-
-    db.init_app(app)
+    from application.resources import api
     api.init_app(app)
+
+    jwt.init_app(app)
+    db.init_app(app)
 
     return app

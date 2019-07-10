@@ -11,20 +11,25 @@ class UserModel(db.Model):
     email = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
 
-    def __init__(self, username, password, first_name, last_name, email):
+    def __init__(self, username, password, first_name, last_name, email, created_at=None):
         self.username = username
         self.password = password
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
+        self.created_at = created_at
 
     def json(self):
         return {
             "id": self.id,
-            "username": self.username
+            "username": self.username,
+            "first_name": self.first_name,
+            "lat_name": self.last_name,
+            "email": self.email,
+            "created_at": self.created_at
         }
 
-    def save_to_db(self):
+    def save(self):
         db.session.add(self)
         db.session.commit()
 
@@ -36,6 +41,6 @@ class UserModel(db.Model):
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
-    def delete_from_db(self):
+    def delete(self):
         db.session.delete(self)
         db.session.commit()
