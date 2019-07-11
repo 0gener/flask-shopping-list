@@ -1,11 +1,11 @@
-from flask import current_app
 from flask_restful import Resource, reqparse
 from werkzeug.security import safe_str_cmp
 from application.models.user import UserModel
 from flask_jwt_extended import (
-    create_access_token,
-    create_refresh_token
+    jwt_refresh_token_required,
+    get_jwt_identity
 )
+from application.models.user_session import create_login_session, create_refresh_session
 
 class UserRegister(Resource):
     @staticmethod
@@ -67,17 +67,25 @@ class UserLogin(Resource):
         user = UserModel.find_by_username(data.username)
 
         if user and safe_str_cmp(user.password, data.password):
-            access_token = create_access_token(identity=user.id, fresh=True)
-            refresh_token = create_refresh_token(user.id)
+            session = create_login_session(user.id)
 
-            access_token_expiration = current_app.config['JWT_ACCESS_TOKEN_EXPIRES'].total_seconds()
-            refresh_token_expiration = current_app.config['JWT_REFRESH_TOKEN_EXPIRES'].total_seconds()
-
-            return {
-                "access_token": access_token,
-                "expires_in": access_token_expiration,
-                "refresh_token": refresh_token,
-                "refresh_expires_in": refresh_token_expiration
-            }, 200
+            return session.json(), 200
 
         return {"message": "Invalid credentials"}, 401
+
+    @staticmethod
+    def __get_time_in_seconds(time):
+        if isinstance(time, int):
+            return time
+        else:
+            return time.total_seconds()
+
+
+class TokenRefresh(Resource):
+    @jwt_refresh_token_required
+    def post(self):
+        current_user_id = get_jwt_identity()
+
+        session = create_refresh_session(current_user_id)
+
+        return session.json(), 200

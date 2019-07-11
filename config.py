@@ -1,7 +1,7 @@
 class Config:
     TESTING = False
     DEBUG = False
-    PROPAGATE_EXCEPTIONS = False
+    PROPAGATE_EXCEPTIONS = True
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
