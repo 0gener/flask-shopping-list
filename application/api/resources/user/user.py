@@ -1,48 +1,23 @@
+from flask import request
 from flask_restful import Resource, reqparse
 from werkzeug.security import safe_str_cmp
-from application.models.user import UserModel
+from application.rdb.models.user import UserModel
 from flask_jwt_extended import (
     jwt_refresh_token_required,
     get_jwt_identity
 )
-from application.models.user_session import create_login_session, create_refresh_session
+from .models.user_register_request import UserRegisterRequest
+from application.rdb.models.user_session import create_login_session, create_refresh_session
 
 class UserRegister(Resource):
     @staticmethod
     def post():
-        parser = reqparse.RequestParser()
-        parser.add_argument('username',
-            type=str,
-            required=True,
-            help="This field cannot be blank."
-        )
-        parser.add_argument('password',
-            type=str,
-            required=True,
-            help="This field cannot be blank."
-        )
-        parser.add_argument('first_name',
-            type=str,
-            required=True,
-            help="This field cannot be blank."
-        )
-        parser.add_argument('last_name',
-            type=str,
-            required=True,
-            help="This field cannot be blank."
-        )
-        parser.add_argument('email',
-            type=str,
-            required=True,
-            help="This field cannot be blank."
-        )
+        req = UserRegisterRequest(request.get_json())
 
-        data = parser.parse_args()
-
-        if UserModel.find_by_username(data['username']):
+        if UserModel.find_by_username(req.username):
             return {"message": "A user with that username already exists"}, 400
 
-        user = UserModel(data.username, data.password, data.first_name, data.last_name, data.email)
+        user = UserModel(req.username, req.password, req.first_name, req.last_name, req.email)
         user.save()
 
         return {"message": "User created successfully."}, 201

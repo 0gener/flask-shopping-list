@@ -3,10 +3,6 @@ from flask_script import Manager # class for handling a set of commands
 from flask_migrate import Migrate, MigrateCommand
 from application import db, create_app
 
-
-from application.models import user
-
-
 config_name = getenv('FLASK_ENV', 'default')
 app = create_app(config=config_name)
 

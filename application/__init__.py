@@ -12,7 +12,7 @@ def create_app(config):
     app.config.from_pyfile('config.py')
     app.config.from_object(app_config[config])
 
-    from application.resources import api
+    from application.api.resources import api
     api.init_app(app)
 
     jwt.init_app(app)
