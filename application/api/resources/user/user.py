@@ -1,5 +1,5 @@
 from flask import request
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from werkzeug.security import safe_str_cmp
 from application.rdb.models.user import UserModel
 from flask_jwt_extended import (
@@ -8,12 +8,14 @@ from flask_jwt_extended import (
 )
 from .models.user_register_request import UserRegisterRequest
 from .models.user_login_request import UserLoginRequest
-from application.rdb.models.user_session import create_login_session, create_refresh_session
+from application.api.resources.user.models.user_session import create_login_session, create_refresh_session
 
 class UserRegister(Resource):
     @staticmethod
     def post():
         req = UserRegisterRequest(request.get_json())
+
+        req.validate()
 
         if UserModel.find_by_username(req.username):
             return {"message": "A user with that username already exists"}, 400
@@ -27,6 +29,8 @@ class UserLogin(Resource):
     @staticmethod
     def post():
         req = UserLoginRequest(request.get_json())
+
+        req.validate()
 
         user = UserModel.find_by_username(req.username)
 

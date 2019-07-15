@@ -1,4 +1,6 @@
 from application import db
+from sqlalchemy.orm import relationship
+from .user_has_group import UserHasGroupModel
 
 class UserModel(db.Model):
     __tablename__ = 't_user'
@@ -10,6 +12,8 @@ class UserModel(db.Model):
     last_name = db.Column(db.String(45), nullable=False)
     email = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
+
+    groups = relationship("GroupModel", secondary="t_user_has_t_group")
 
     def __init__(self, username, password, first_name, last_name, email, created_at=None):
         self.username = username

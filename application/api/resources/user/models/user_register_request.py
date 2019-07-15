@@ -1,7 +1,7 @@
 from application.api.resources.common.common_request import CommonRequest
 
 class UserRegisterRequest(CommonRequest):
-    def __init__(self, request:dict):
+    def __init__(self, request: dict):
         self.username = super().load_field(request, 'username')
         self.password = super().load_field(request, 'password')
         self.first_name = super().load_field(request, 'first_name')

@@ -12,19 +12,15 @@ class TestUserRegisterRequest(unittest.TestCase):
         }
 
         self.missing_username_mock = self.valid_mock.copy().pop('username', None)
-
         self.missing_password_mock = self.valid_mock.copy().pop('password', None)
-
         self.missing_first_name_mock = self.valid_mock.copy().pop('first_name', None)
-
         self.missing_last_name_mock = self.valid_mock.copy().pop('last_name', None)
-
         self.missing_email_mock = self.valid_mock.copy().pop('password', None)
 
     def tearDown(self):
         pass
 
-    def test_valid_user_login_request(self):
+    def test_validate_valid_request(self):
         request = UserRegisterRequest(self.valid_mock)
 
         request.validate()
@@ -35,27 +31,27 @@ class TestUserRegisterRequest(unittest.TestCase):
         self.assertEqual(request.last_name, self.valid_mock['last_name'])
         self.assertEqual(request.email, self.valid_mock['email'])
 
-    def test_missing_username_user_register_request(self):
+    def test_validate_missing_username_request(self):
         request = UserRegisterRequest(self.missing_username_mock)
 
         self.assertRaises(Exception, request.validate)
 
-    def test_missing_password_user_register_request(self):
+    def test_validate__missing_password_request(self):
         request = UserRegisterRequest(self.missing_password_mock)
 
         self.assertRaises(Exception, request.validate)
 
-    def test_missing_first_name_user_register_request(self):
+    def test_validate_missing_first_name_request(self):
         request = UserRegisterRequest(self.missing_first_name_mock)
 
         self.assertRaises(Exception, request.validate)
 
-    def test_missing_last_name_user_register_request(self):
+    def test_validate__missing_last_name_request(self):
         request = UserRegisterRequest(self.missing_last_name_mock)
 
         self.assertRaises(Exception, request.validate)
 
-    def test_missing_email_user_register_request(self):
+    def test_validate__missing_email_request(self):
         request = UserRegisterRequest(self.missing_email_mock)
 
         self.assertRaises(Exception, request.validate)

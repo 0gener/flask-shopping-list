@@ -8,18 +8,13 @@ class TestUserLoginRequest(unittest.TestCase):
             'password': 'test'
         }
 
-        self.missing_username_mock = {
-            'password': 'test'
-        }
-
-        self.missing_password_mock = {
-            'username': 'test'
-        }
+        self.missing_username_mock = self.valid_mock.copy().pop('username', None)
+        self.missing_password_mock = self.valid_mock.copy().pop('password', None)
 
     def tearDown(self):
         pass
 
-    def test_valid_user_login_request(self):
+    def test_validate_valid_request(self):
         request = UserLoginRequest(self.valid_mock)
 
         request.validate()
@@ -27,12 +22,12 @@ class TestUserLoginRequest(unittest.TestCase):
         self.assertEqual(request.username, self.valid_mock['username'])
         self.assertEqual(request.password, self.valid_mock['password'])
 
-    def test_missing_username_user_login_request(self):
+    def test_validate_missing_username_request(self):
         request = UserLoginRequest(self.missing_username_mock)
 
         self.assertRaises(Exception, request.validate)
 
-    def test_missing_password_user_login_request(self):
+    def test_validate_missing_password_request(self):
         request = UserLoginRequest(self.missing_password_mock)
 
         self.assertRaises(Exception, request.validate)
