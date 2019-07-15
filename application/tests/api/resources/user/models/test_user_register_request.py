@@ -11,40 +11,15 @@ class TestUserRegisterRequest(unittest.TestCase):
             'email': 'test@test.com'
         }
 
-        self.missing_username_mock = {
-            'password': 'test',
-            'first_name': 'test',
-            'last_name': 'test',
-            'email': 'test@test.com'
-        }
+        self.missing_username_mock = self.valid_mock.copy().pop('username', None)
 
-        self.missing_password_mock = {
-            'username': 'test',
-            'first_name': 'test',
-            'last_name': 'test',
-            'email': 'test@test.com'
-        }
+        self.missing_password_mock = self.valid_mock.copy().pop('password', None)
 
-        self.missing_first_name_mock = {
-            'username': 'test',
-            'password': 'test',
-            'last_name': 'test',
-            'email': 'test@test.com'
-        }
+        self.missing_first_name_mock = self.valid_mock.copy().pop('first_name', None)
 
-        self.missing_last_name_mock = {
-            'username': 'test',
-            'password': 'test',
-            'first_name': 'test',
-            'email': 'test@test.com'
-        }
+        self.missing_last_name_mock = self.valid_mock.copy().pop('last_name', None)
 
-        self.missing_email_mock = {
-            'username': 'test',
-            'password': 'test',
-            'first_name': 'test',
-            'last_name': 'test'
-        }
+        self.missing_email_mock = self.valid_mock.copy().pop('password', None)
 
     def tearDown(self):
         pass
