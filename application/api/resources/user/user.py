@@ -7,6 +7,7 @@ from flask_jwt_extended import (
     get_jwt_identity
 )
 from .models.user_register_request import UserRegisterRequest
+from .models.user_login_request import UserLoginRequest
 from application.rdb.models.user_session import create_login_session, create_refresh_session
 
 class UserRegister(Resource):
@@ -25,23 +26,11 @@ class UserRegister(Resource):
 class UserLogin(Resource):
     @staticmethod
     def post():
-        parser = reqparse.RequestParser()
-        parser.add_argument('username',
-            type=str,
-            required=True,
-            help="This field cannot be blank."
-        )
-        parser.add_argument('password',
-            type=str,
-            required=True,
-            help="This field cannot be blank."
-        )
+        req = UserLoginRequest(request.get_json())
 
-        data = parser.parse_args()
+        user = UserModel.find_by_username(req.username)
 
-        user = UserModel.find_by_username(data.username)
-
-        if user and safe_str_cmp(user.password, data.password):
+        if user and safe_str_cmp(user.password, req.password):
             session = create_login_session(user.id)
 
             return session.json(), 200
