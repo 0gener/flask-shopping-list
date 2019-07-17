@@ -25,6 +25,7 @@ class Group(Resource):
 
         user_group.status = GroupStatus.JOINED.value
         user_group.joined_at = db.func.current_timestamp()
+        user_group.is_owner = True
 
         user_group.save()
 

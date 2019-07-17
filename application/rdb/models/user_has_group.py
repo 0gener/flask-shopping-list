@@ -8,13 +8,12 @@ class UserHasGroupModel(db.Model):
     t_user_id = db.Column(db.Integer, db.ForeignKey('t_user.id'))
     t_group_id = db.Column(db.Integer, db.ForeignKey('t_group.id'))
     status = db.Column(db.String(45), nullable=False)
-    invited_by = db.Column(db.Integer, db.ForeignKey('t_user.id'))
     invited_at = db.Column(db.DateTime, nullable=True)
     joined_at = db.Column(db.DateTime, nullable=True)
+    is_owner = db.Column(db.Boolean, nullable=False)
 
     user = relationship("UserModel", foreign_keys=[t_user_id], backref=backref("t_user_has_t_group"))
     group = relationship("GroupModel", backref=backref("t_user_has_t_group"))
-    invited_user = relationship("UserModel", foreign_keys=[invited_by])
 
     def __init__(self, user, group):
         self.user = user
