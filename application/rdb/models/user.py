@@ -1,6 +1,5 @@
 from application import db
 from sqlalchemy.orm import relationship
-from .user_has_group import UserHasGroupModel
 
 class UserModel(db.Model):
     __tablename__ = 't_user'

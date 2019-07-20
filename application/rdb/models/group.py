@@ -9,6 +9,7 @@ class GroupModel(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
 
     users = relationship("UserModel", secondary="t_user_has_t_group")
+    items = relationship("ItemModel", back_populates="group")
 
     def __init__(self, name, created_at=None):
         self.name = name
