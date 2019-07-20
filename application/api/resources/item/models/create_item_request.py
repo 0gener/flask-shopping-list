@@ -2,7 +2,9 @@ from application.api.resources.common.common_request import CommonRequest
 
 class CreateItemRequest(CommonRequest):
     def __init__(self, request: dict):
-        self.name = super().load_field(request, 'name')
+        super().__init__(request)
+
+        self.name = self.load_field('name')
 
     def validate(self):
         if self.name is None:

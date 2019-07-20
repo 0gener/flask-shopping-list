@@ -1,7 +1,9 @@
 class CommonRequest:
-    @staticmethod
-    def load_field(request:dict, field:str):
+    def __init__(self, request: dict):
+        self.request = request
+
+    def load_field(self, field:str):
         try:
-            return request[field]
+            return self.request[field]
         except:
             return None

@@ -17,11 +17,15 @@ class TestCommonRequest(unittest.TestCase):
         pass
 
     def test_load_field_return_field(self):
-        field_value = CommonRequest.load_field(self.mock, self.field_that_exists)
+        request = CommonRequest(self.mock)
+
+        field_value = request.load_field(self.field_that_exists)
 
         self.assertEqual(field_value, self.mock[self.field_that_exists])
 
     def test_load_field_return_none(self):
-        field_value = CommonRequest.load_field(self.mock, self.field_that_does_not_exist)
+        request = CommonRequest(self.mock)
+
+        field_value = request.load_field(self.field_that_does_not_exist)
 
         self.assertEqual(field_value, None)
