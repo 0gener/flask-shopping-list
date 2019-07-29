@@ -1,0 +1,230 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Shopping List",
+    "description": "",
+    "license": {
+      "name": ""
+    }
+  },
+  "host": "127.0.0.1:5000",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "responses": {
+          "201": {
+            "$ref": "#/responses/RegisterUser201"
+          }
+        },
+        "summary": "Register a new user",
+        "operationId": "register",
+        "tags": [
+          "SL"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RegisterUserRequest"
+            }
+          }
+        ]
+      }
+    },
+    "/login": {
+      "get": {
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Login200"
+          }
+        },
+        "summary": "Login",
+        "operationId": "login",
+        "tags": [
+          "SL"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ]
+      }
+    },
+    "/token/refresh": {
+      "post": {
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RefreshToken200"
+          }
+        },
+        "summary": "Refresh Token",
+        "operationId": "refreshToken",
+        "tags": [
+          "SL"
+        ],
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/group": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "summary": "Create a group",
+        "operationId": "createGroup",
+        "tags": [
+          "SL"
+        ]
+      }
+    },
+    "/group/{group_id}/item": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        "operationId": "createItem",
+        "tags": [
+          "SL"
+        ],
+        "summary": "Create an item in a group",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Path-Group-Id"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "RegisterUserRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password",
+        "first_name",
+        "last_name",
+        "email"
+      ]
+    },
+    "UserSession": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string"
+        },
+        "expires_in": {
+          "type": "integer"
+        },
+        "refresh_token": {
+          "type": "string"
+        },
+        "refresh_expires_in": {
+          "type": "integer"
+        }
+      }
+    },
+    "LoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "SL"
+    }
+  ],
+  "responses": {
+    "RegisterUser201": {
+      "description": "",
+      "schema": {
+        "type": "object"
+      }
+    },
+    "RefreshToken200": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/UserSession"
+      }
+    },
+    "Login200": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/UserSession"
+      }
+    }
+  },
+  "parameters": {
+    "Path-Group-Id": {
+      "name": "group_id",
+      "in": "path",
+      "type": "integer",
+      "required": true
+    }
+  }
+}
